@@ -4,28 +4,32 @@ import random
 
 def main():
     args = parse_args()
-    x = random.randint(1, 1000)
-    y_expected = args.y
-    y_current = E_step(x)
-    diff = y_expected - y_current
-    i = 0
-    while abs(diff) >= args.limit:
-        diff = y_expected - y_current
-        x = x - M_step(diff, x, args.step_size)
-        y_current = E_step(x)
-        i += 1
+    x_init = random.randint(1, 1000)
+    x = solve(x=x_init, y_expected=args.y, limit=args.limit, step_size=args.step_size)
     print('The squared root is {}.'.format(x))
 
 
-def E_step(x):
+def solve(x, y_expected, limit, step_size):
+    y_current = calculate_Y(x)
+    diff = y_expected - y_current
+    i = 0
+    while abs(diff) >= limit:
+        diff = y_expected - y_current
+        x = update_X(diff, x, step_size)
+        y_current = calculate_Y(x)
+        i += 1
+    return x
+
+
+def calculate_Y(x):
     return x * x
 
 
-def M_step(diff, x, step_size):
+def update_X(diff, x, step_size):
     if diff >= 0:
-        return -2 * x * step_size
+        return x - (-2 * x * step_size)
     else:
-        return 2 * x * step_size
+        return x - (2 * x * step_size)
 
 
 def parse_args():
