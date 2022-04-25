@@ -9,113 +9,90 @@ Hui Chong
 ---
 ## Programming for problem solving
 
-**Why programming?**
+### Why programming?
 
-There are mainly two ways to solve problems.
+There are generally two ways to solve problems.
 
-- Manual operation
-  - Flexible: human can adapt to different problems.
-  - Error prone: human can make random mistakes.
-  - **But, what if you have to solve it over and over again 1000 or even more times?**
-- Programming
-  - Less flexible: a program is built for only one kind of problems.
-  - **Easy to scale up**: it's a series of pre-defined instructions to be executed by computers.
+#### Manual operation
+
+- Flexible: human can adapt to different problems.
+- Error prone: human can make random mistakes.
+- **But, what if you have to execute your solution over and over again in the future?**
+- Human effort are for those repetitive works.
+
+#### Programming
+
+- Less flexible: a program is built for only one kind of problems.
+- **Easy to scale up**: it's a series of pre-defined instructions to be executed by computers.
 
 Not all problems can be solved by programming.
 
 ---
-## Top-down programming
+## Top-down programming & bottom-up testing
 
-A hard problem often can be split into several simpler problems.
+### What are the benefits?
+- Clear code structure that is easy to understand by others.
+- Coding is also a kind of commuication (e.g., collaborative developing).
+- Easier to debug.
+- Develop and test more efficiently without almost any extra cost.
+- Top-down programming is independent of programming language. 
 
-A diagram of top-down problem solving.
 
-You're using "Top-down" thinking every day when you solve problems.
-You just didn't realize that you're using it.
+### How it works? 
 
----
-## Bottom-up debugging
-
-Programming is about both writing code and debugging.
-
-A diagram of bottom-up debugging.
-
----
-## Motif-finding: A classical problem
-
-#### Motif：
-
-- Does not have an independent tertiary structure.
-- Has specific biological functions: binding, modification, cell sublocalization, maintenance of structures, etc.
-- The length is generally several to several tens of amino acids / base.
-
-Motif finding problem is a classical bioinformatics problem, 
-aiming to quickly find a series of motifs on genes with the 
-same enzyme (DNA replicase, etc.) binding site.
-
-#### Solution:
-
-Gibbs sampler algorithm.
+- Split large problem into multiple smaller problems.
+- Solve each smaller problem using a function/module.
+- Test small functions before testing those larger and depends on the small functions.
 
 ---
-## Gibbs sampler algorithm
 
-Iterative three steps
-```text
-randomly select motif.
-...
-...
-```
-The pseudocode
-```text
-    Gibbs sampler(Dna, k, t, N)
-        randomly select k-mers Motifs = (Motif1, …, Motift) in each string from Dna
-        BestMotifs ← Motifs
-        for j ← 1 to N
-            i ← Random(t)
-            Profile ← profile matrix constructed from all strings in Motifs except for Motifi
-            Motifi ← profile most(Dnai, k, Profile)
-            if Score(Motifs) < Score(BestMotifs)
-                BestMotifs ← Motifs
-        return BestMotifs
-```
+
+## Function call graph
+
+Function call graph can clearly show the structure of you program.
+
+![](example/complex.png)
+
+The example was generated based on the [PyCallGraph](https://pycallgraph.readthedocs.io/en/master/index.html) package.
 
 ---
-## Very first implementation
+## How to apply top-down programming?
+
+Think about the structure while/before you write code.
+
+Tips to write a script.
+- The main function goes on the top so that any new comer can see the structure of the script (like a table of content).
+- Run `main()` inside `if __name__ == '__main__'` statement for easier test.
+
 ```python
-def motif_finder(dnas, k):
-  step_1()
-  step_2()
-  step_3()
-  
-  
+def main():
+    A(xxx)
+    B(xxx)
+    C(xxx)
+
+def A(xxx):
+    D(xxx)
+    E(xxx)
+
 ......
-  
-  
-if __name__ == "__main__":
-  dnas = [
-    'acgta.....',
-    'acgta.....',
-    'acgta.....',
-    'acgta.....',
-    'acgta.....',
-    'acgta.....',
-  ]
-  motif_finding(dnas)
+
+def I(xxx):
+  ......
+
+if __name__ == '__main__':  
+    main()
 ```
 
 ---
-## Debugging
+## Bottom-up testing and error analysis
 
-bottom-up debugging.
+Tips to test the script.
+- Test small functions first.
+- **Error analysis**: If a module cannot work but all its submodules work well, then the bug should be in the module.
 
-#### Bug #1
-It's in step_2 code but Python interpreter reported error when executing step_3.
+![](example/complex.png)
 
-#### But #2
-It's in step_3 code.
 
 ---
-## Top-down programming
+## Example: Finding proximate squared root by gradient descent
 
-Do you think it's quite useful?
