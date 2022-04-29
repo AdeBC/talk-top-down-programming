@@ -1,11 +1,25 @@
 # Top-down programming for problem solving
 
-Hui Chong
+&nbsp;
 
-[huichong.me@gmail.com](mailto:huichong.me@gmail.com)
+&nbsp;
 
-[www.huichong.me](https://www.huichong.me)
+&nbsp;
 
+<div style="text-align: center"><b>Hui Chong</b><br/><br/>
+Email: <a href="mailto:huichong.me@gmail.com">huichong.me@gmail.com<a><br/>
+Website: <a href="https://www.huichong.me">https://www.huichong.me</a>
+</div>
+
+&nbsp;
+
+&nbsp;
+
+<div style="text-align: right">May 9, 2022<br/>
+Big Data Biology Lab, <br/>
+Institute of Science and Technology for Brain-inspired Intelligence, <br/>
+Fudan University
+</div>
 ---
 ## Programming for problem solving
 
@@ -91,5 +105,67 @@ if __name__ == '__main__':
 
 
 ---
-## Example: Finding proximate squared root by gradient descent
+## Example: Finding proximate squared root
 
+Given an integer `Y`, what is the proximate value of `X` that satisfy `Y = X^2`?
+
+#### Code
+
+```python
+def main():
+    ......
+
+def solve(y_expected, limit, step_size, x=None):
+    if not x:
+        x = random.randint(1, 1000)
+    y_current = calculate_Y(x)
+    diff = y_expected - y_current
+    while abs(diff) >= limit:
+        x = update_X(y_expected, y_current, x, step_size)
+        y_current = calculate_Y(x)
+    return x
+
+def calculate_Y(x):
+    return x * x
+
+def update_X(y_expected, y_current, x, step_size):
+    return x - (-2 * x * step_size)
+
+if __name__ == '__main__':
+    main()
+```
+
+---
+
+## Example: Buttom-up testing
+<!-- Function call graph:  -->
+
+<!-- ![](example/simple.png) -->
+Let's test these functions.
+
+```python
+import simple_gd_sqrt as sqrt_test
+
+
+# Test calculate_Y
+assert sqrt_test.calculate_Y(x=3) == 9
+assert sqrt_test.calculate_Y(x=-3) == 9
+
+
+# Test update_X
+# Rule: X = X - d|y_expected - x**2|/dx * step_size
+# d|y_expected - x**2|/dx = -2 * x (when y_expected >= x**2) 
+#                         or 2 * x (when y_expected < x**2)
+updated_X = sqrt_test.update_X(y_expected=9, y_current=4, x=2, step_size=0.0001)
+assert updated_X == 2 + 2 * 2 * 0.0001
+
+updated_X = sqrt_test.update_X(y_expected=9, y_current=16, x=4, step_size=0.0001)
+assert updated_X == 4 - 2 * 4 * 0.0001
+
+
+# Test solve
+y_current = sqrt_test.solve(x=10, y_expected=9, limit=0.01, step_size=0.0001)
+assert abs(y_current - 3) < 0.01
+y_current = sqrt_test.solve(x=1, y_expected=9, limit=0.01, step_size=0.0001)
+assert abs(y_current - 3) < 0.01
+```
