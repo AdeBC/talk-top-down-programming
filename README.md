@@ -1,8 +1,6 @@
-# remarkjs-slides-template
+# Top-down programming
 
-Preparing slides using Markdown is easy. 
-
-This repository is mainly for my personal use, but you're welcome to using the template by clicking on the "**Use this template**" button! 
+See [the online version](https://www.huichong.me/talks/top-down-programming/#1).
 
 Author: [Hui Chong](https://www.huichong.me)
 
