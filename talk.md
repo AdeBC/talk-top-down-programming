@@ -65,7 +65,7 @@ Programming is a straightforward way to automate a process.
 
 ## Function call graph
 
-Function call graph can clearly show the structure of you program.
+Function call graph can clearly show the structure of your program.
 
 ![](example/complex.png)
 
@@ -161,13 +161,13 @@ class TestgdSQRT(unittest.TestCase):
 
 Given an integer `Y`, what is the proximate value of `X` that satisfy `Y = X^2`?
 
-**Gradient descent (GD)**: to minimize some function by iteratively moving in the direction of steepest descent as defined by the negative of the gradient.
+We could use Gradient descent algorithem to minimize `Y - X^2` and get `X`.
+
+**Gradient descent (GD)**: *to minimize some function by iteratively moving in the direction of steepest descent as defined by the negative of the gradient.*
 <p align="center">
 <img src="https://ml-cheatsheet.readthedocs.io/en/latest/_images/gradient_descent_demystified.png" width=400></img><br/>
 <i>Image borrowed from <a href="https://ml-cheatsheet.readthedocs.io/en/latest/gradient_descent.html">ML glossary</a></i>
 </p>
-
-Here we use the GD algorithem to minimize `Y - X^2` and obtain a proximate `X`.
 
 ---
 ## Example: Finding proximate squared root (Cont'd)
@@ -322,19 +322,17 @@ def update_X(y_expected, y_current, x, step_size):
 
 ##### Issue found
 
-The gradient of `Y - X^2` should be 
-- `-2 * x` **when** `y_expected >= X^2`
-- `2 * x` when `y_expected < X^2`
+The gradient of `abs(Y - X^2)` should be 
+- `-2 * x` **when** `Y >= X^2`
+- `2 * x` when `Y < X^2`
 
 ##### Reimplement the function
 
 ```python
 def update_X(y_expected, y_current, x, step_size):
     diff = y_expected - y_current
-    if diff >= 0:
-        return x - (-2 * x * step_size)
-    else:
-        return x - (2 * x * step_size)
+    if diff >= 0: return x - (-2 * x * step_size)
+    else: return x - (2 * x * step_size)
 ```
 
 ---
